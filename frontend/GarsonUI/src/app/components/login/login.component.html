@@ -1,0 +1,39 @@
+<div class="sidenav">
+  <div class="login-main-text">
+    <h2>GARSONN<br> Üye İşletme Giriş Sayfası</h2>
+    <p>Lütfen Sözleşme Numaranızı ve Şifrenizi Giriniz!</p>
+  </div>
+</div>
+<div class="main">
+  <div class="row login">
+    <div id="errorMsg" *ngIf="errorMessage">
+      <span>{{errorMessage}}</span>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <div class="login-form">
+        <form [formGroup]="loginForm" novalidate (ngSubmit)="loginCompany()">
+          <div class="form-group">
+            <label>Sözleşme Numarası</label>
+
+            <input type="text" class="form-control" placeholder="Örn:SA125TH521" formControlName="contractNo">
+            <span class="error"
+              *ngIf="!loginForm.controls['contractNo'].valid && loginForm.controls['contractNo'].touched">
+              Sözleşme Numarası zorunludur!
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Şifre</label>
+
+            <input type="password" class="form-control" placeholder="Örn:JHUA5!klı" formControlName="password">
+            <span class="error" *ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].touched">
+              Şifre zorunludur!
+            </span>
+          </div>
+          <button type="submit" class="btn btn-black">Giriş</button>
+        </form>
+        <div class="progress" *ngIf="showSpinner">
+          <div class="indeterminate"></div>
+        </div>
+      </div>
+    </div>
+  </div>

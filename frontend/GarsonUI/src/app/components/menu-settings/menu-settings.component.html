@@ -1,0 +1,206 @@
+<script type="text/javascript">
+  $(document).ready(() => {
+    $('#mytable #checkall').click(function () {
+      if ($("#mytable #checkall").is(':checked')) {
+        $('#mytable input[type=checkbox]').each(function () {
+          $(this).prop("checked", true);
+
+        });
+
+      } else {
+        $("#mytable input[type=checkbox]").each(function () {
+          $(this).prop("checked", false);
+        });
+      }
+    });
+
+    $("[data-toggle=tooltip]").tooltip();
+  });
+
+
+  $("#mytable input[type=checkbox]:checked").on("click", function () {
+    var name = $(this).parents("tr").attr('data-value');
+
+  });
+
+
+</script>
+<div class="container">
+  <div class="row">
+
+
+    <div class="col-md-12">
+      <h4>MENÜ</h4>
+
+      <div class="table-responsive">
+
+
+        <table id="mytable" class="table table-bordred table-dark table-hover table-striped">
+
+          <thead>
+
+            <th><input type="checkbox" /></th>
+            <th>Kategori</th>
+            <th>Ürün Adı</th>
+            <th>Ürün Açıklaması</th>
+            <th>Ürün Fiyatı</th>
+
+            <th>Edit</th>
+
+            <th>Delete</th>
+          </thead>
+          <tbody *ngFor="let product of products;let i=index;">
+
+            <tr>
+              <td><input type="checkbox" class="checkall" id="checked" (change)="selectCheckbox($event,product._id)" />
+              </td>
+
+              <td>{{product.category}}</td>
+              <td>{{product.name}}</td>
+              <td>{{product.description}}</td>
+              <td>{{product.price}}</td>
+
+              <td>
+
+                <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
+                    data-title="Edit" data-toggle="modal" data-target="#edit"><i class="fas fa-edit fa-xs"></i></button>
+                </p>
+              </td>
+              <td>
+                <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs"
+                    data-title="Delete" data-toggle="modal" data-target="#delete"><i
+                      class="far fa-trash-alt fa-xs"></i></button></p>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+        <div class="clearfix"></div>
+        <ul class="pagination pull-right">
+          <li class="disabled"><a href="#"><i class="fas fa-chevron-left"></i></a></li>
+          <li class="active"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i></a></li>
+        </ul>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+            style="position: absolute;left: 0.5rem;" class="fas fa-times"></i></button>
+        <h4 class="modal-title custom_align" id="Heading">Ürün Bilgilerini Giriniz</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="productUpdateForm" novalidate (ngSubmit)="UpdateProduct()">
+          {{productUpdateForm.value|json}}
+          <div hidden="true" class="form-group">
+            <input class="form-control " [(ngModel)]="chkSelected" type="text" placeholder="ürün ID'si"
+              formControlName="_id">
+          </div>
+          <div class="form-group">
+            <input class="form-control " type="text" placeholder="ürün adı" formControlName="name">
+          </div>
+          <div class="form-group">
+
+            <input class="form-control " type="text" placeholder="ürün açıklaması" formControlName="description">
+          </div>
+          <div class="form-group">
+            <input class="form-control " type="text" placeholder="ürün fiyatı" formControlName="price">
+          </div>
+          <div class="form-group">
+            <input class="form-control " type="text" placeholder="ürün kategorisi" formControlName="category">
+          </div>
+          <div class="modal-footer ">
+            <button class="btn btn-warning btn-lg" style="width: 100%;"><i
+                style="position: absolute;left: 3rem;bottom: 3rem;" class="fas fa-check-circle"></i>Güncelle</button>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+            style="position: absolute;left: 0.25rem;" class="fas fa-times"></i></button>
+        <h4 class="modal-title custom_align" id="Heading">Bu Ürünü Sil</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span>
+          Bu ürünü silmek istediğinizden emin misiniz?</div>
+
+      </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>Evet</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span
+            class="glyphicon glyphicon-remove"></span>hayır</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- EKLE-SİL BUTONLARI -->
+<div class="row add-remove">
+  <div class="col-lg-3"><button class="btn btn-dark a-btn-slide-text" (click)="onAddClick()">
+      <i class="fas fa-plus"> </i> Yeni Ürün Ekle</button></div>
+  <div class="col-lg-9"><button class="btn btn-dark"><i class="far fa-trash-alt"></i> Seçili Ürünleri Sil</button>
+  </div>
+</div>
+<!-- Yeni ÜRÜN EKLE -->
+
+<div class="container" *ngIf="isInsert==true">
+  <div class="row">
+    <div class="col">
+      <div class="form_main">
+        <h4 class="heading"><strong>Yeni Ürün </strong> Ekle <span></span></h4>
+        <div class="form">
+          <form [formGroup]="productForm" novalidate (ngSubmit)="submitProduct()">
+            {{productForm.value|json}}
+            <div class="form-group">
+              <input class="form-control" type="text" required placeholder="Ürün adını giriniz" formControlName="name"
+                name="name">
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="Ürün açıklamasını giriniz"
+                formControlName="description" name="description">
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="Ürün fiyatını giriniz" formControlName="price"
+                name="price">
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="text" placeholder="Kategori Belirtiniz" formControlName="category"
+                name="category">
+            </div>
+
+            <button class="btn btn-dark">Kaydet</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
