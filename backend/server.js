@@ -41,10 +41,12 @@ mongoose.connect(
 // models requireing
 const auth = require("./routes/authRoutes");
 const menu = require("./routes/menuRoutes");
+const company = require("./routes/companyRoutes");
 
 // models use
 app.use("/api/garsonn", auth);
 app.use("/api/garsonn", menu);
+app.use("/api/garsonn", company);
 
 app.listen(3000, () => {
   console.log("server is running on port 3000");

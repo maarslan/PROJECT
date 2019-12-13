@@ -29,6 +29,9 @@ export class MenuSettingsComponent implements OnInit {
   onAddClick() {
     this.isInsert = true;
   }
+  onDoneClick() {
+    this.isInsert = false;
+  }
   init() {
 
     this.productForm = this.fb.group({

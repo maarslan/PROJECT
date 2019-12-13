@@ -31,16 +31,22 @@ module.exports = {
       });
   },
 
-  getProducts(req, res) {
-    Menu.find({ company: req.company._id }, (err, founds) => {
-      if (err) {
-        res
-          .send(httpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "List Products Error", err });
-      }
-      res.send(founds[0].products);
-      console.log("Bu productslar: " + founds[0].products);
-    });
+  async getProducts(req, res) {
+    try {
+      await Menu.find({ company: req.company._id }, (err, founds) => {
+        if (err) {
+          res
+            .send(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "List Products Error", err });
+        }
+        res.send(founds[0].products);
+        console.log("Bu productslar: " + founds[0].products);
+      });
+    } catch (error) {
+      res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "product update error", error });
+    }
   },
   updateProduct(req, res) {
     Menu.update(

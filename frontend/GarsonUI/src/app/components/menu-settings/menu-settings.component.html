@@ -179,10 +179,13 @@
   <div class="row">
     <div class="col">
       <div class="form_main">
-        <h4 class="heading"><strong>Yeni Ürün </strong> Ekle <span></span></h4>
+        <h4 style="font-family:Arial, Helvetica, sans-serif" class="heading"><strong>Yeni Ürün Ekle</strong>
+          <span></span></h4>
+        <button type="button" (click)="onDoneClick()" class="close" data-dismiss="modal" aria-hidden="true"><i
+            style="position: absolute;right: 1.25rem;top:1rem" class="fas fa-times"></i></button>
         <div class="form">
           <form [formGroup]="productForm" novalidate (ngSubmit)="submitProduct()">
-            {{productForm.value|json}}
+            <!-- {{productForm.value|json}} -->
             <div class="form-group">
               <input class="form-control" type="text" required placeholder="Ürün adını giriniz" formControlName="name"
                 name="name">

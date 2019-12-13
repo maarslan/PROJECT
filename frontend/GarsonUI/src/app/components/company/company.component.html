@@ -131,14 +131,14 @@
               <span>Ayarlar</span>
             </li>
             <li>
-              <a (click)="shiftToMenu()">
+              <a class="pointer" (click)="shiftToMenu()">
                 <i class="fa fa-book"></i>
                 <span>Menü Ayarları</span>
                 <span class="badge badge-pill badge-primary">Beta</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a class="pointer" (click)="shiftToTables()">
                 <i class="fa fa-calendar"></i>
                 <span>Masa Ayarları</span>
               </a>
@@ -176,6 +176,7 @@
     <main class="page-content">
 
       <app-menu-settings *ngIf="isMenuSettings==true"></app-menu-settings>
+      <app-table-settings *ngIf="isTableSettings==true"></app-table-settings>
 
     </main>
     <!-- page-content" -->

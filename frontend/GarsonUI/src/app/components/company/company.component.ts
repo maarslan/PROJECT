@@ -10,6 +10,7 @@ declare var jQuery: any;
 })
 export class CompanyComponent implements OnInit {
   isMenuSettings = false;
+  isTableSettings = false;
   company: any;
   constructor(private tokenService: TokenService, private router: Router) { }
 
@@ -58,5 +59,8 @@ export class CompanyComponent implements OnInit {
   }
   shiftToMenu() {
     this.isMenuSettings = true;
+  }
+  shiftToTables() {
+    this.isTableSettings = true;
   }
 }

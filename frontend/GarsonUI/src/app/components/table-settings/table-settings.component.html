@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="row">
+    <h4>MASA AYARLARI</h4>
+  </div>
+  <div class="col">
+    <form [formGroup]="tableForm" novalidate (ngSubmit)="submitTableNumber()">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">LÜTFEN MASA ADETİNİ BELİTİNİZ </span>
+        </div>
+        <input formControlName="counter" type="number" class="form-control" value="">
+      </div>
+      <button class="btn btn-dark tableSubmitBtn">Kaydet</button>
+    </form>
+
+  </div>
+  <div class="container-fluid tableBody">
+    <div class="row" style="padding: 2rem;">
+
+      <div class="card table-card" *ngFor="let table of tables">
+        <div class="card-header">
+          {{table.no}}
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <label>{{table.name}} </label>
+            <li class="list-group-item">---</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

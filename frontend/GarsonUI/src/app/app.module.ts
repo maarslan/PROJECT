@@ -12,13 +12,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { TokenInterceptor } from './services/token-interceptor.service';
 import { TokenService } from './services/token.service';
+import { TableSettingsComponent } from './components/table-settings/table-settings.component';
 @NgModule({
   declarations: [
     AppComponent,
     CompanyComponent,
     MenuSettingsComponent,
     HomePageComponent,
-    LoginComponent
+    LoginComponent,
+    TableSettingsComponent
   ],
   imports: [
     BrowserModule,
