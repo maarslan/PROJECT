@@ -11,7 +11,7 @@ const companySchema = mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Menu",
-      category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Menu" }]
+      products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Menu" }]
     }
   ],
   table: [{ name: String, no: Number }],

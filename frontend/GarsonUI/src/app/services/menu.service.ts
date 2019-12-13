@@ -12,20 +12,19 @@ const BASEURL = 'http://localhost:3000/api/garsonn';
 export class MenuService {
 
   constructor(private http: HttpClient) { }
-  //  addCategory(body): Observable<any> {
-  //    return this.http.post(BASEURL + '/menu/add-category', body);
-  //  }
+
   addProduct(body): Observable<any> {
     return this.http.post(BASEURL + '/menu/add-product', body);
 
   }
-  getCategories(): Observable<Product> {
-    return this.http.get<Product>(BASEURL + '/menu/list-categories');
-  }
+
   getProducts(): Observable<Product> {
     return this.http.get<Product>(BASEURL + '/menu/list-products');
   }
   updateProduct(body): Observable<any> {
-    return this.http.put(BASEURL + '/menu/update-product', body);
+    return this.http.put(BASEURL + '/menu/update-product/' + body._id, body);
+  }
+  deleteProduct(body): Observable<any> {
+    return this.http.delete(BASEURL + '/menu/product/' + body._id);
   }
 }

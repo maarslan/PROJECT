@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MenuService } from 'src/app/services/menu.service';
 import { Category } from './category.js';
-import { Product } from './product.js'
-import { $ } from 'protractor';
+import { Product } from './product.js';
+import { $, promise } from 'protractor';
 declare var jQuery: any;
 @Component({
   selector: 'app-menu-settings',
@@ -12,27 +12,25 @@ declare var jQuery: any;
 })
 export class MenuSettingsComponent implements OnInit {
   isInsert = false;
-
   productForm: FormGroup;
-
   products: Product[];
   productUpdateForm: FormGroup;
   chkSelected: Array<any> = [];
+  yesToDelete = false;
+  confirm = true;
   constructor(private fb: FormBuilder, private menuService: MenuService) { }
 
   ngOnInit() {
     this.init();
     this.getProducts();
-    // this.getCategories();
+
 
   }
   onAddClick() {
     this.isInsert = true;
   }
   init() {
-    // this.categoryForm = this.fb.group({
-    //   category: ['', Validators.required]
-    // });
+
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -49,13 +47,6 @@ export class MenuSettingsComponent implements OnInit {
       _id: ['', Validators.required]
     });
   }
-  // submitCategory() {
-  //   this.menuService.addCategory(this.categoryForm.value).subscribe((data) => {
-  //     console.log(data);
-  //     this.categoryForm.reset();
-
-  //   });
-  // }
 
   submitProduct() {
     this.menuService.addProduct(this.productForm.value).subscribe((data) => {
@@ -65,14 +56,7 @@ export class MenuSettingsComponent implements OnInit {
       this.getProducts();
     });
   }
-  getCategories() {
-    // this.CatlistEmpty = false;
-    this.menuService.getCategories().subscribe((data) => {
-      this.products = data;
 
-
-    });
-  }
   getProducts() {
     this.menuService.getProducts().subscribe((data) => {
       this.products = data;
@@ -86,12 +70,11 @@ export class MenuSettingsComponent implements OnInit {
       console.log(data);
       this.productUpdateForm.reset();
       this.getProducts();
+
     });
   }
 
-  getId(ngModel: any) {
 
-  }
   selectCheckbox(event, val) {
     if (event.target.checked === true) {
       this.chkSelected = val;
@@ -103,6 +86,27 @@ export class MenuSettingsComponent implements OnInit {
     console.log(this.chkSelected);
   }
 
+  intentToDelete() {
+    this.confirm = true;
+  }
+
+  deleteAProduct(product) {
+
+    if (this.confirm === true) {
+      try {
+        this.menuService.deleteProduct(product).subscribe(data => {
+          console.log(data);
+        });
+      } catch (error) {
+        console.log(error + product._id);
+      }
+    }
+  }
+
+
+
+
 
 
 }
+
