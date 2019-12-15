@@ -17,6 +17,20 @@ export class CompanyComponent implements OnInit {
   ngOnInit() {
     this.company = this.tokenService.GetPayload();
     // tslint:disable-next-line: no-shadowed-variable
+    this.toggleSideNav();
+  }
+
+  shiftToMenu() {
+    this.isMenuSettings = true;
+  }
+  shiftToTables() {
+    this.isTableSettings = true;
+  }
+  logOut() {
+    this.tokenService.DeleteToken();
+    this.router.navigate(['']);
+  }
+  toggleSideNav() {
     jQuery(($) => {
 
       $('.sidebar-dropdown > a').click(function () {
@@ -52,15 +66,5 @@ export class CompanyComponent implements OnInit {
 
 
     });
-  }
-  logOut() {
-    this.tokenService.DeleteToken();
-    this.router.navigate(['']);
-  }
-  shiftToMenu() {
-    this.isMenuSettings = true;
-  }
-  shiftToTables() {
-    this.isTableSettings = true;
   }
 }

@@ -5,6 +5,7 @@
         $('#mytable input[type=checkbox]').each(function () {
           $(this).prop("checked", true);
 
+
         });
 
       } else {
@@ -26,70 +27,67 @@
 
 </script>
 <div class="container">
-  <div class="row">
+  <h4>MENÜ</h4>
+
+  <div class="table-responsive">
 
 
-    <div class="col-md-12">
-      <h4>MENÜ</h4>
+    <table id="mytable" class="table table-bordred table-dark table-hover table-striped">
 
-      <div class="table-responsive">
+      <thead>
 
+        <th><input type="checkbox" /></th>
+        <th>Kategori</th>
+        <th>Ürün Adı</th>
+        <th>Ürün Açıklaması</th>
+        <th>Ürün Fiyatı</th>
 
-        <table id="mytable" class="table table-bordred table-dark table-hover table-striped">
+        <th>Ekle</th>
 
-          <thead>
+        <th>Sil</th>
+      </thead>
+      <tbody *ngFor="let product of products;let i=index;">
 
-            <th><input type="checkbox" /></th>
-            <th>Kategori</th>
-            <th>Ürün Adı</th>
-            <th>Ürün Açıklaması</th>
-            <th>Ürün Fiyatı</th>
+        <tr>
+          <td><input type="checkbox" class="checkall" id="checked" (change)="selectCheckbox($event,product)" />
+          </td>
 
-            <th>Edit</th>
+          <td id="tableCat">{{product.category}}</td>
+          <td id="tableName">{{product.name}}</td>
+          <td id="tableDesc">{{product.description}}</td>
+          <td id="tablePrice">{{product.price}}</td>
 
-            <th>Delete</th>
-          </thead>
-          <tbody *ngFor="let product of products;let i=index;">
+          <td>
 
-            <tr>
-              <td><input type="checkbox" class="checkall" id="checked" (change)="selectCheckbox($event,product._id)" />
-              </td>
+            <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
+                (click)="sendingValue()" data-title="Edit" data-toggle="modal" data-target="#edit"><i
+                  class="fas fa-edit fa-xs"></i></button>
+            </p>
+          </td>
+          <td>
+            <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs"
+                data-title="Delete" data-toggle="modal" data-target="#delete"><i
+                  class="far fa-trash-alt fa-xs"></i></button></p>
+          </td>
+        </tr>
+      </tbody>
 
-              <td>{{product.category}}</td>
-              <td>{{product.name}}</td>
-              <td>{{product.description}}</td>
-              <td>{{product.price}}</td>
+    </table>
+    <div class="clearfix"></div>
+    <ul class="pagination pull-right">
+      <li class="disabled"><a href="#"><i class="fas fa-chevron-left"></i></a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li><a href="#"><i class="fas fa-chevron-right"></i></a></li>
+    </ul>
 
-              <td>
-
-                <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
-                    data-title="Edit" data-toggle="modal" data-target="#edit"><i class="fas fa-edit fa-xs"></i></button>
-                </p>
-              </td>
-              <td>
-                <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs"
-                    (click)="deleteAProduct(product)" data-title="Delete" data-toggle="modal" data-target="#delete"><i
-                      class="far fa-trash-alt fa-xs"></i></button></p>
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
-        <div class="clearfix"></div>
-        <ul class="pagination pull-right">
-          <li class="disabled"><a href="#"><i class="fas fa-chevron-left"></i></a></li>
-          <li class="active"><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i></a></li>
-        </ul>
-
-      </div>
-
-    </div>
   </div>
+
+
+
 </div>
 
 
@@ -104,24 +102,28 @@
       </div>
       <div class="modal-body">
 
-        <form [formGroup]="productUpdateForm" novalidate (ngSubmit)="UpdateProduct()">
+        <form id="updateForm" [formGroup]="productUpdateForm" novalidate (ngSubmit)="UpdateProduct()">
           {{productUpdateForm.value|json}}
           <div hidden="true" class="form-group">
             <input class="form-control " [(ngModel)]="chkSelected" type="text" placeholder="ürün ID'si"
               formControlName="_id">
           </div>
           <div class="form-group">
-            <input class="form-control " type="text" placeholder="ürün adı" formControlName="name">
+            <input class="form-control " [(ngModel)]="selectedName" type="text" id="updateName" placeholder="ürün adı"
+              formControlName="name">
           </div>
           <div class="form-group">
 
-            <input class="form-control " type="text" placeholder="ürün açıklaması" formControlName="description">
+            <input class="form-control " [(ngModel)]="selectedDesc" type="text" id="updateDesc"
+              placeholder="ürün açıklaması" formControlName="description">
           </div>
           <div class="form-group">
-            <input class="form-control " type="text" placeholder="ürün fiyatı" formControlName="price">
+            <input class="form-control " [(ngModel)]="selectedPrice" type="text" id="updatePrice"
+              placeholder="ürün fiyatı" formControlName="price">
           </div>
           <div class="form-group">
-            <input class="form-control " type="text" placeholder="ürün kategorisi" formControlName="category">
+            <input class="form-control " [(ngModel)]="selectedCat" type="text" id="updateCat"
+              placeholder="ürün kategorisi" formControlName="category">
           </div>
           <div class="modal-footer ">
             <button class="btn btn-warning btn-lg" style="width: 100%;"><i
@@ -139,8 +141,7 @@
 
 
 
-<div *ngIf="!yesToDelete" class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit"
-  aria-hidden="true">
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -157,7 +158,7 @@
       </div>
       <div class="modal-footer ">
 
-        <button (click)="intentToDelete()" class="btn btn-success"><span
+        <button (click)="intentToDelete()" class="btn btn-success" id="yesBtn"><span
             class="glyphicon glyphicon-ok-sign"></span>Evet</button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><span
             class="glyphicon glyphicon-remove"></span>hayır</button>
@@ -210,3 +211,6 @@
     </div>
   </div>
 </div>
+<script>
+
+</script>

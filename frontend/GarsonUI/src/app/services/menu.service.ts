@@ -15,7 +15,6 @@ export class MenuService {
 
   addProduct(body): Observable<any> {
     return this.http.post(BASEURL + '/menu/add-product', body);
-
   }
 
   getProducts(): Observable<Product> {

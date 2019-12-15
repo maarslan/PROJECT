@@ -13,22 +13,28 @@ module.exports = {
       state: req.body.state,
       category: req.body.category
     };
-    Menu.findOneAndUpdate(
-      { company: req.company._id },
-      {
-        $push: { products: body }
-      },
-      { new: true, upsert: true }
-    )
-      .then(data => {
-        res.status(httpStatus.CREATED).json({ message: "created!", data });
-        console.log(data);
-      })
-      .catch(err => {
-        res
-          .status(httpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "add-product error", err });
-      });
+    try {
+      Menu.findOneAndUpdate(
+        { company: req.company._id },
+        {
+          $push: { products: body }
+        },
+        { new: true, upsert: true }
+      )
+        .then(data => {
+          res.status(httpStatus.CREATED).json({ message: "created!", data });
+          console.log(data);
+        })
+        .catch(err => {
+          res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "add-product error", err });
+        });
+    } catch (error) {
+      res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "error occured!", err });
+    }
   },
 
   async getProducts(req, res) {

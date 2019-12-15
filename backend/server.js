@@ -4,6 +4,10 @@ const cors = require("cors");
 const express = require("express");
 
 const app = express();
+// Socket.io setup
+const server = require("http").createServer(app);
+const io = require("socket.io").listen(server);
+
 app.use(cors());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -37,8 +41,9 @@ mongoose.connect(
     }
   }
 );
+require("./socket/menu-settings")(io);
 
-// models requireing
+// routes requireing
 const auth = require("./routes/authRoutes");
 const menu = require("./routes/menuRoutes");
 const company = require("./routes/companyRoutes");
@@ -48,6 +53,6 @@ app.use("/api/garsonn", auth);
 app.use("/api/garsonn", menu);
 app.use("/api/garsonn", company);
 
-app.listen(3000, () => {
+server.listen(3000, () => {
   console.log("server is running on port 3000");
 });

@@ -4,14 +4,19 @@ const AuthHelper = require("../helpers/AuthHelper");
 const CompanyCtrl = require("../controllers/company");
 
 router.post(
-  "/menu/create-table",
+  "/company/create-table",
   AuthHelper.VerifyToken,
   CompanyCtrl.createTables
 );
 router.get(
-  "/menu/display-tables",
+  "/company/display-tables",
   AuthHelper.VerifyToken,
   CompanyCtrl.getTables
+);
+router.put(
+  "/company/update-table-name/:_id",
+  AuthHelper.VerifyToken,
+  CompanyCtrl.updateTableName
 );
 
 module.exports = router;

@@ -13,6 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { TokenInterceptor } from './services/token-interceptor.service';
 import { TokenService } from './services/token.service';
 import { TableSettingsComponent } from './components/table-settings/table-settings.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,8 @@ import { TableSettingsComponent } from './components/table-settings/table-settin
     MenuSettingsComponent,
     HomePageComponent,
     LoginComponent,
-    TableSettingsComponent
+    TableSettingsComponent,
+
   ],
   imports: [
     BrowserModule,

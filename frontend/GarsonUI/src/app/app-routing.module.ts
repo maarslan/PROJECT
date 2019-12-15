@@ -6,12 +6,29 @@ import { MenuSettingsComponent } from './components/menu-settings/menu-settings.
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './services/auth.guard';
+import { TableSettingsComponent } from './components/table-settings/table-settings.component';
 
 
-const routes: Routes = [{ path: '', component: HomePageComponent },
-{ path: 'company', component: CompanyComponent, canActivate: [AuthGuard] },
+const routes: Routes = [{
+  path: '', component: AppComponent,
+  children: [
+    { path: '', component: HomePageComponent },
+    { path: 'login', component: LoginComponent },
+    // {
+    //   path: 'company', component: AppComponent, canActivate: [AuthGuard]
+    // }
+  ]
+},
 
-{ path: 'login', component: LoginComponent }];
+{
+  path: 'company', component: CompanyComponent, canActivate: [AuthGuard],
+  children: [
+    { path: 'menu-settings', component: MenuSettingsComponent, canActivate: [AuthGuard] },
+    { path: 'table-settings', component: TableSettingsComponent, canActivate: [AuthGuard] },
+  ]
+}
+
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

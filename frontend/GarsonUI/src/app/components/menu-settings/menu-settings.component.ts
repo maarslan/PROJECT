@@ -3,7 +3,10 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { MenuService } from 'src/app/services/menu.service';
 import { Category } from './category.js';
 import { Product } from './product.js';
-import { $, promise } from 'protractor';
+import * as $ from 'jquery';
+import io from 'socket.io-client';
+import { Router } from '@angular/router';
+
 declare var jQuery: any;
 @Component({
   selector: 'app-menu-settings',
@@ -18,12 +21,22 @@ export class MenuSettingsComponent implements OnInit {
   chkSelected: Array<any> = [];
   yesToDelete = false;
   confirm = true;
-  constructor(private fb: FormBuilder, private menuService: MenuService) { }
+  socket: any;
+  selectedName: any;
+  selectedDesc: any;
+  selectedPrice: any;
+  selectedCat: any;
+  formUpdate: Array<any> = [];
+  constructor(private fb: FormBuilder, private menuService: MenuService, private router: Router) {
+    this.socket = io('http://localhost:3000');
+  }
 
   ngOnInit() {
     this.init();
     this.getProducts();
-
+    this.socket.on('refreshPage', data => {
+      this.getProducts();
+    });
 
   }
   onAddClick() {
@@ -56,7 +69,7 @@ export class MenuSettingsComponent implements OnInit {
       console.log(data);
 
       this.productForm.reset();
-      this.getProducts();
+      this.socket.emit('refresh', {});
     });
   }
 
@@ -72,15 +85,20 @@ export class MenuSettingsComponent implements OnInit {
     this.menuService.updateProduct(this.productUpdateForm.value).subscribe((data) => {
       console.log(data);
       this.productUpdateForm.reset();
-      this.getProducts();
-
+      this.socket.emit('refresh', {});
+      jQuery('#edit').modal('hide');
     });
   }
 
 
   selectCheckbox(event, val) {
     if (event.target.checked === true) {
-      this.chkSelected = val;
+      this.chkSelected = val._id;
+      this.selectedName = val.name;
+      this.selectedDesc = val.description;
+      this.selectedCat = val.category;
+      this.selectedPrice = val.price;
+      this.formUpdate = val;
     }
     //  else {
     //   const index = this.chkSelected.indexOf(val);
@@ -90,21 +108,36 @@ export class MenuSettingsComponent implements OnInit {
   }
 
   intentToDelete() {
-    this.confirm = true;
-  }
 
-  deleteAProduct(product) {
+    try {
+      this.menuService.deleteProduct(this.productUpdateForm.value).subscribe(data => {
+        console.log(data);
+        this.socket.emit('refresh', {});
+        jQuery('#delete').modal('hide');
 
-    if (this.confirm === true) {
-      try {
-        this.menuService.deleteProduct(product).subscribe(data => {
-          console.log(data);
-        });
-      } catch (error) {
-        console.log(error + product._id);
-      }
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
+
+  sendingValue() {
+    jQuery('#updateName').val(this.selectedName);
+    jQuery('#updateDesc').val(this.selectedDesc);
+    jQuery('#updatePrice').val(this.selectedPrice);
+    jQuery('#updateCat').val(this.selectedCat);
+    console.log(this.selectedName);
+  }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -112,4 +145,3 @@ export class MenuSettingsComponent implements OnInit {
 
 
 }
-
