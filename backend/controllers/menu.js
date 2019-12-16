@@ -38,21 +38,44 @@ module.exports = {
   },
 
   async getProducts(req, res) {
-    try {
-      await Menu.find({ company: req.company._id }, (err, founds) => {
-        if (err) {
-          res
-            .send(httpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "List Products Error", err });
+    // try {
+    await Menu.aggregate([
+      {
+        $match: {
+          company: mongoose.Types.ObjectId(req.company._id)
         }
-        res.send(founds[0].products);
-        console.log("Bu productslar: " + founds[0].products);
+      },
+      {
+        $unwind: "$products"
+      },
+      {
+        $sort: {
+          "products.category": 1 //1 (for ascending) or -1 (for descending)
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          products: {
+            $push: "$products"
+          }
+        }
+      }
+    ])
+      .then(founds => {
+        if (founds.length >= 0) {
+          console.log("İlk Bulunan :" + founds[0].products);
+          res.send(founds[0].products);
+        } else {
+          res.status(400).send("No doc found");
+          console.log("İkinci Bulunan : " + founds[0].products);
+        }
+      })
+      .catch(err => {
+        res
+          .status(httpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "error occured!", err });
       });
-    } catch (error) {
-      res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "product update error", error });
-    }
   },
   updateProduct(req, res) {
     Menu.update(

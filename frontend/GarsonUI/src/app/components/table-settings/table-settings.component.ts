@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Table } from './table.js';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { CompanyService } from 'src/app/services/company.service';
 import io from 'socket.io-client';
 import * as $ from 'jquery';
@@ -19,7 +19,7 @@ export class TableSettingsComponent implements OnInit {
   selectedTableName: Array<any> = [];
   updateTableNameForm: FormGroup;
   selectedTableNo: any;
-
+  updateTableNumForm: FormGroup;
   constructor(private fb: FormBuilder, private companyService: CompanyService) {
     this.socket = io('http://localhost:3000');
 
@@ -43,6 +43,9 @@ export class TableSettingsComponent implements OnInit {
       name: ['', Validators.required],
       _id: ['', Validators.required],
       no: ['', Validators.required]
+    });
+    this.updateTableNumForm = this.fb.group({
+      counter: ['', Validators.required],
     });
     this.displayTables();
   }
@@ -88,4 +91,11 @@ export class TableSettingsComponent implements OnInit {
     console.log(this.selectedTableNo);
   }
 
+  updateTableNumber() {
+    this.companyService.updateTableNumber(this.updateTableNumForm.value).subscribe(data => {
+      console.log(data);
+      this.updateTableNumForm.reset();
+      this.socket.emit('refresh', {});
+    });
+  }
 }

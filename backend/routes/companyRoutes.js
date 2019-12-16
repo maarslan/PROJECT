@@ -18,5 +18,10 @@ router.put(
   AuthHelper.VerifyToken,
   CompanyCtrl.updateTableName
 );
+router.put(
+  "/company/update-table-number",
+  AuthHelper.VerifyToken,
+  CompanyCtrl.updateTableNumber
+);
 
 module.exports = router;

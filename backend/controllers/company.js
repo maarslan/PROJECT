@@ -25,21 +25,57 @@ module.exports = {
     res.send(tableArray);
   },
   getTables(req, res) {
-    try {
-      Company.find({ _id: req.company._id }, (err, founds) => {
-        if (err) {
-          res
-            .status(httpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: "error occured!", err });
+    Company.aggregate([
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(req.company._id)
         }
-
-        res.send(founds[0].table);
+      },
+      {
+        $unwind: "$table"
+      },
+      {
+        $sort: {
+          "table.no": 1 //1 (for ascending) or -1 (for descending)
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          table: {
+            $push: "$table"
+          }
+        }
+      }
+    ])
+      .then(founds => {
+        if (founds.length > 0) {
+          console.log(founds[0].table);
+          res.send(founds[0].table);
+        } else {
+          res.status(400).send("No doc found");
+        }
+      })
+      .catch(err => {
+        res
+          .status(httpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "error occured!", err });
       });
-    } catch (error) {
-      res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: "display table error", error });
-    }
+
+    //   Company.find({ _id: req.company._id }, (err, founds) => {
+    //     if (err) {
+    //       res
+    //         .status(httpStatus.INTERNAL_SERVER_ERROR)
+    //         .json({ message: "error occured!", err });
+    //     }
+
+    //     res.send(founds[0].table);
+    //   });
+    // } catch (error) {
+    //   res
+    //     .status(httpStatus.INTERNAL_SERVER_ERROR)
+    //     .json({ message: "display table error", error });
+    // }
   },
   updateTableName(req, res) {
     tableId = req.params._id;
@@ -65,5 +101,39 @@ module.exports = {
           .status(httpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: "table name update error", err });
       });
-  }
+  },
+  updateTableNumber(req, res) {
+  //   Company.find({ _id: req.company._id }, (err, founds) => {
+  //     console.log(".table length : " + founds[0].table.length);
+  //     console.log("counter : " + req.body.counter);
+  //     const counter = req.body.counter;
+      
+  //     if (founds[0].table.length >= req.body.counter) {
+  //       for (let i = counter; i < founds[0].table.length; i++) {
+  //         Company.aggregate([
+  //           {$match:{_id:req.company._id}},
+  //           {$pull:{table:{$concatArrays:[{name:'deneme',no:i+1}]}}}
+  //         ])
+          
+  //       }
+       
+  //     } else if (founds[0].table.length <= req.body.counter) {
+  //       Company.update(
+  //         { "table.counter": { $exists: 1 } },
+  //         { $push: { table: { $each: [], $slice: req.body.counter } } },
+  //         { multi: true }
+  //       )
+  //         .then(data => {
+  //           res
+  //             .status(httpStatus.Ok)
+  //             .json({ message: "Girilen daha büyük sayıya çıkarıldı", data });
+  //         })
+  //         .catch(err => {
+  //           res
+  //             .status(httpStatus.INTERNAL_SERVER_ERROR)
+  //             .json({ message: "error occured", err });
+  //         });
+  //     }
+  //   });
+  // }
 };

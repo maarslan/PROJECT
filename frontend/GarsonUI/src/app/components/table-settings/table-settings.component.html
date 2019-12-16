@@ -45,6 +45,23 @@
       </div>
     </form>
   </div>
+  <!-- For Update Table Number -->
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon3">Masa Sayınızı Belirtiniz</span>
+    </div>
+    <form [formGroup]="updateTableNumForm" novalidate (ngSubmit)="updateTableNumber()">
+      <div class="row">
+        <div class="col-lg-6">
+          <input type="text" class="form-control" formControlName="counter" id="basic-url"
+            aria-describedby="basic-addon3">
+        </div>
+        <div class="col-lg-6">
+          <button class="btn btn-dark">Güncelle</button>
+        </div>
+      </div>
+    </form>
+  </div>
 
   <div class="table-responsive">
 
