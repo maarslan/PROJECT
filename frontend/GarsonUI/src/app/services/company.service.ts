@@ -20,7 +20,11 @@ export class CompanyService {
   updateTableName(body): Observable<any> {
     return this.http.put(BASEURL + '/company/update-table-name/' + body._id, body);
   }
-  updateTableNumber(body): Observable<any> {
-    return this.http.put(BASEURL + '/company/update-table-number', body);
+  addATable(body): Observable<any> {
+    return this.http.put(BASEURL + '/company/add-a-table', body);
   }
+  removeATable(body): Observable<any> {
+    return this.http.put(BASEURL + '/company/remove-a-table', body);
+  }
+
 }

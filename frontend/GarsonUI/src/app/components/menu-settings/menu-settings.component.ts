@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MenuService } from 'src/app/services/menu.service';
-import { Category } from './category.js';
+
 import { Product } from './product.js';
 import * as $ from 'jquery';
 import io from 'socket.io-client';
@@ -93,12 +93,11 @@ export class MenuSettingsComponent implements OnInit {
 
   selectCheckbox(event, val) {
     if (event.target.checked === true) {
-      this.chkSelected = val._id;
-      this.selectedName = val.name;
-      this.selectedDesc = val.description;
-      this.selectedCat = val.category;
-      this.selectedPrice = val.price;
-      this.formUpdate = val;
+      this.productUpdateForm.get('_id').setValue(val._id);
+      this.productUpdateForm.get('name').setValue(val.name);
+      this.productUpdateForm.get('description').setValue(val.description);
+      this.productUpdateForm.get('price').setValue(val.price);
+      this.productUpdateForm.get('category').setValue(val.category);
     }
     //  else {
     //   const index = this.chkSelected.indexOf(val);
@@ -121,13 +120,13 @@ export class MenuSettingsComponent implements OnInit {
     }
   }
 
-  sendingValue() {
-    jQuery('#updateName').val(this.selectedName);
-    jQuery('#updateDesc').val(this.selectedDesc);
-    jQuery('#updatePrice').val(this.selectedPrice);
-    jQuery('#updateCat').val(this.selectedCat);
-    console.log(this.selectedName);
-  }
+  // sendingValue() {
+  //   jQuery('#updateName').val(this.selectedName);
+  //   jQuery('#updateDesc').val(this.selectedDesc);
+  //   jQuery('#updatePrice').val(this.selectedPrice);
+  //   jQuery('#updateCat').val(this.selectedCat);
+  //   console.log(this.selectedName);
+  // }
 
 
 

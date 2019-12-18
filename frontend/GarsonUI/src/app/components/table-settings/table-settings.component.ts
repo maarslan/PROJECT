@@ -15,11 +15,14 @@ declare var jQuery: any;
 export class TableSettingsComponent implements OnInit {
   socket: any;
   tables: Table[];
+  tableNumber;
   tableForm: FormGroup;
   selectedTableName: Array<any> = [];
   updateTableNameForm: FormGroup;
   selectedTableNo: any;
   updateTableNumForm: FormGroup;
+  NewTableNumber;
+
   constructor(private fb: FormBuilder, private companyService: CompanyService) {
     this.socket = io('http://localhost:3000');
 
@@ -30,52 +33,69 @@ export class TableSettingsComponent implements OnInit {
     this.socket.on('refreshPage', data => {
       this.displayTables();
     });
+    // for the switching the  form fields inside create table form and add/remove table fields
+    this.formsVisibility();
   }
 
 
   init() {
-    this.displayTables();
-
+    // for the form to get number of table from user
     this.tableForm = this.fb.group({
-      counter: ['', Validators.required],
+      counter: ['', Validators.required]
     });
+    // for the form to update the name and no fields of a table
     this.updateTableNameForm = this.fb.group({
       name: ['', Validators.required],
       _id: ['', Validators.required],
       no: ['', Validators.required]
     });
-    this.updateTableNumForm = this.fb.group({
-      counter: ['', Validators.required],
-    });
+
     this.displayTables();
   }
-
+  // display the tables in the table
   displayTables() {
     this.companyService.getTables().subscribe(data => {
       this.tables = data;
-      console.log(data);
+      this.tableNumber = data.length;
+      jQuery('#totalTableNumber').text(this.tableNumber);
+      console.log('MASA SAYISI :' + this.tableNumber);
+
+
+      console.log('Toplam Masa Sayısı :' + this.tableNumber);
+
+
     });
   }
 
-
+  // If the table array is empty then the create tables as much as input number
   submitTableNumber() {
     this.companyService.addTable(this.tableForm.value).subscribe(data => {
       console.log(data);
+      this.tableForm.reset();
+      this.socket.emit('refresh', {});
     }, err => {
       console.log(err);
     });
   }
+  // Get html field for the value from checked object in table and set it as value
+  // Used it instead of ngModel
   selectedTable(event, val) {
     if (event.target.checked === true) {
-      this.selectedTableName = val._id;
-      this.selectedTableNo = val.no;
-
+      this.updateTableNameForm.get('name').setValue(val.name);
+      this.updateTableNameForm.get('_id').setValue(val._id);
+      this.selectedTableNo = this.updateTableNameForm.get('no').setValue(val.no);
     }
-
-
     console.log(this.selectedTableName);
     console.log(this.selectedTableNo);
   }
+
+  // The checked object value is sending to update field
+  sendingValue() {
+    jQuery('#updateNo').text(this.selectedTableNo);
+
+    console.log(this.selectedTableNo);
+  }
+  // Edit Field Form
   UpdateTableName() {
     this.companyService.updateTableName(this.updateTableNameForm.value).subscribe(data => {
       console.log(data);
@@ -85,17 +105,32 @@ export class TableSettingsComponent implements OnInit {
     });
   }
 
-  sendingValue() {
-    jQuery('#updateNo').val(this.selectedTableNo);
-
-    console.log(this.selectedTableNo);
-  }
-
-  updateTableNumber() {
-    this.companyService.updateTableNumber(this.updateTableNumForm.value).subscribe(data => {
+  // +/- Field Form
+  addTable() {
+    return this.companyService.addATable(this.tables).subscribe(data => {
       console.log(data);
-      this.updateTableNumForm.reset();
+      this.socket.emit('refresh', {});
+    });
+
+  }
+  removeTable() {
+    return this.companyService.removeATable(this.tableForm.value).subscribe(data => {
+      console.log(data);
       this.socket.emit('refresh', {});
     });
   }
+
+  formsVisibility() {
+    if ($('#totalTableNumber').html('0')) {
+      $('#CreateTables').hide();
+      $('#UpdateTables').show();
+      $('#EmptyTable').hide();
+
+    } else {
+      $('#CreateTables').show();
+      $('#UpdateTables').hide();
+      $('#totalTableNumber').text('0');
+    }
+  }
+
 }

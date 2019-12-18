@@ -19,9 +19,14 @@ router.put(
   CompanyCtrl.updateTableName
 );
 router.put(
-  "/company/update-table-number",
+  "/company/add-a-table",
   AuthHelper.VerifyToken,
-  CompanyCtrl.updateTableNumber
+  CompanyCtrl.addATable
+);
+router.put(
+  "/company/remove-a-table",
+  AuthHelper.VerifyToken,
+  CompanyCtrl.removeATable
 );
 
 module.exports = router;

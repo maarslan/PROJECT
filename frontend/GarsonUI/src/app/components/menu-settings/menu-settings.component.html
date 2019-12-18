@@ -60,8 +60,7 @@
           <td>
 
             <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
-                (click)="sendingValue()" data-title="Edit" data-toggle="modal" data-target="#edit"><i
-                  class="fas fa-edit fa-xs"></i></button>
+                data-title="Edit" data-toggle="modal" data-target="#edit"><i class="fas fa-edit fa-xs"></i></button>
             </p>
           </td>
           <td>
@@ -105,25 +104,22 @@
         <form id="updateForm" [formGroup]="productUpdateForm" novalidate (ngSubmit)="UpdateProduct()">
           {{productUpdateForm.value|json}}
           <div hidden="true" class="form-group">
-            <input class="form-control " [(ngModel)]="chkSelected" type="text" placeholder="ürün ID'si"
-              formControlName="_id">
+            <input class="form-control " type="text" placeholder="ürün ID'si" formControlName="_id">
           </div>
           <div class="form-group">
-            <input class="form-control " [(ngModel)]="selectedName" type="text" id="updateName" placeholder="ürün adı"
-              formControlName="name">
+            <input class="form-control " type="text" id="updateName" placeholder="ürün adı" formControlName="name">
           </div>
           <div class="form-group">
 
-            <input class="form-control " [(ngModel)]="selectedDesc" type="text" id="updateDesc"
-              placeholder="ürün açıklaması" formControlName="description">
+            <input class="form-control " type="text" id="updateDesc" placeholder="ürün açıklaması"
+              formControlName="description">
           </div>
           <div class="form-group">
-            <input class="form-control " [(ngModel)]="selectedPrice" type="text" id="updatePrice"
-              placeholder="ürün fiyatı" formControlName="price">
+            <input class="form-control " type="text" id="updatePrice" placeholder="ürün fiyatı" formControlName="price">
           </div>
           <div class="form-group">
-            <input class="form-control " [(ngModel)]="selectedCat" type="text" id="updateCat"
-              placeholder="ürün kategorisi" formControlName="category">
+            <input class="form-control " type="text" id="updateCat" placeholder="ürün kategorisi"
+              formControlName="category">
           </div>
           <div class="modal-footer ">
             <button class="btn btn-warning btn-lg" style="width: 100%;"><i

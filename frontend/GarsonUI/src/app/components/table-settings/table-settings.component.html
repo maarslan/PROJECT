@@ -25,42 +25,60 @@
   });
 
 
+
 </script>
 <div class="container">
   <h4>MASA AYARLARI</h4>
 
-  <div class="input-group mb-3">
+  <div id="CreateTables" class="input-group mb-3">
     <div class="input-group-prepend">
       <span class="input-group-text" id="basic-addon3">Masa Sayınızı Belirtiniz</span>
     </div>
     <form [formGroup]="tableForm" novalidate (ngSubmit)="submitTableNumber()">
       <div class="row">
-        <div class="col-lg-6">
-          <input type="text" class="form-control" formControlName="counter" id="basic-url"
-            aria-describedby="basic-addon3">
+        <div class="col-lg-5">
+          <input type="text" class="form-control" formControlName="counter" id="basic" aria-describedby="basic-addon3">
         </div>
-        <div class="col-lg-6">
-          <button class="btn btn-dark">Kaydet</button>
+        <div class="col-lg-5">
+          <button type="submit" class="btn btn-dark">Kaydet</button>
         </div>
       </div>
     </form>
   </div>
-  <!-- For Update Table Number -->
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="basic-addon3">Masa Sayınızı Belirtiniz</span>
-    </div>
-    <form [formGroup]="updateTableNumForm" novalidate (ngSubmit)="updateTableNumber()">
-      <div class="row">
-        <div class="col-lg-6">
-          <input type="text" class="form-control" formControlName="counter" id="basic-url"
-            aria-describedby="basic-addon3">
-        </div>
-        <div class="col-lg-6">
-          <button class="btn btn-dark">Güncelle</button>
+  <!-- INCREASE-DECREASE NUMBER OF TABLES -->
+  <div id="UpdateTables" class="input-group mb-3">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">Masa Sayınızı Güncelleyin</span>
         </div>
       </div>
-    </form>
+    </div>
+    <div class="col-lg-9" style="margin-left: 3%;">
+      <form [formGroup]="tableForm">
+        <div>
+          <label>Masa Sayısını Arttır</label><span></span>
+          <button type="button" (click)="addTable()" class="btn btn-sm btn-dark">+</button>
+        </div>
+      </form>
+      <form [formGroup]="tableForm">
+        <div>
+          <label>Masa Sayısını Azalt</label><span></span>
+          <button type="button" (click)="removeTable()" class="btn btn-sm btn-dark">-</button>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+  <!-- TOPLAM MASA SAYISI -->
+  <div class="row">
+    <div class="col-lg-6">
+      <h5>Toplam Masa Sayısı</h5>
+    </div>
+    <div class="col-lg-6">
+      <h5 id="totalTableNumber"></h5>
+    </div>
   </div>
 
   <div class="table-responsive">
@@ -115,8 +133,7 @@
         <form id="updateForm" [formGroup]="updateTableNameForm" novalidate (ngSubmit)="UpdateTableName()">
           {{updateTableNameForm.value|json}}
           <div hidden="true" class="form-group">
-            <input class="form-control " [(ngModel)]="selectedTableName" type="text" placeholder="ürün ID'si"
-              formControlName="_id">
+            <input class="form-control " type="text" placeholder="ürün ID'si" formControlName="_id">
           </div>
           <div class="form-group">
             <label>Masa No</label>
@@ -138,4 +155,8 @@
     <!-- /.modal-content -->
   </div>
   <!-- /.modal-dialog -->
+</div>
+
+<div class="container-fluid">
+  <h3 id="EmptyTable"> İş yerinizde Bulunan Masa Sayınızı Belirtiniz!</h3>
 </div>

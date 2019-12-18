@@ -25,57 +25,50 @@ module.exports = {
     res.send(tableArray);
   },
   getTables(req, res) {
-    Company.aggregate([
-      {
-        $match: {
-          _id: mongoose.Types.ObjectId(req.company._id)
-        }
-      },
-      {
-        $unwind: "$table"
-      },
-      {
-        $sort: {
-          "table.no": 1 //1 (for ascending) or -1 (for descending)
-        }
-      },
-      {
-        $group: {
-          _id: "$_id",
-          table: {
-            $push: "$table"
+    try {
+      Company.aggregate([
+        {
+          $match: {
+            _id: mongoose.Types.ObjectId(req.company._id)
+          }
+        },
+        {
+          $unwind: "$table"
+        },
+        {
+          $sort: {
+            "table.no": 1 //1 (for ascending) or -1 (for descending)
+          }
+        },
+        {
+          $group: {
+            _id: "$_id",
+            table: {
+              $push: "$table"
+            }
           }
         }
-      }
-    ])
-      .then(founds => {
-        if (founds.length > 0) {
-          console.log(founds[0].table);
-          res.send(founds[0].table);
-        } else {
-          res.status(400).send("No doc found");
-        }
-      })
-      .catch(err => {
-        res
-          .status(httpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: "error occured!", err });
-      });
-
-    //   Company.find({ _id: req.company._id }, (err, founds) => {
-    //     if (err) {
-    //       res
-    //         .status(httpStatus.INTERNAL_SERVER_ERROR)
-    //         .json({ message: "error occured!", err });
-    //     }
-
-    //     res.send(founds[0].table);
-    //   });
-    // } catch (error) {
-    //   res
-    //     .status(httpStatus.INTERNAL_SERVER_ERROR)
-    //     .json({ message: "display table error", error });
-    // }
+      ])
+        .then(founds => {
+          if (founds[0].table.length > 0) {
+            console.log(founds[0].table);
+            res.send(founds[0].table);
+          } else {
+            res.status(400).send("Empty Table Error");
+            console.log("Boş array : " + founds[0].table);
+          }
+        })
+        .catch(err => {
+          res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "error occured!", err });
+          console.log(err);
+        });
+    } catch (error) {
+      res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "Display Tables Error Occured!", error });
+    }
   },
   updateTableName(req, res) {
     tableId = req.params._id;
@@ -102,38 +95,52 @@ module.exports = {
           .json({ message: "table name update error", err });
       });
   },
-  updateTableNumber(req, res) {
-  //   Company.find({ _id: req.company._id }, (err, founds) => {
-  //     console.log(".table length : " + founds[0].table.length);
-  //     console.log("counter : " + req.body.counter);
-  //     const counter = req.body.counter;
-      
-  //     if (founds[0].table.length >= req.body.counter) {
-  //       for (let i = counter; i < founds[0].table.length; i++) {
-  //         Company.aggregate([
-  //           {$match:{_id:req.company._id}},
-  //           {$pull:{table:{$concatArrays:[{name:'deneme',no:i+1}]}}}
-  //         ])
-          
-  //       }
-       
-  //     } else if (founds[0].table.length <= req.body.counter) {
-  //       Company.update(
-  //         { "table.counter": { $exists: 1 } },
-  //         { $push: { table: { $each: [], $slice: req.body.counter } } },
-  //         { multi: true }
-  //       )
-  //         .then(data => {
-  //           res
-  //             .status(httpStatus.Ok)
-  //             .json({ message: "Girilen daha büyük sayıya çıkarıldı", data });
-  //         })
-  //         .catch(err => {
-  //           res
-  //             .status(httpStatus.INTERNAL_SERVER_ERROR)
-  //             .json({ message: "error occured", err });
-  //         });
-  //     }
-  //   });
-  // }
+  addATable(req, res) {
+    Company.find({ _id: req.company._id }, (err, founds) => {
+      console.log("Body'den gelen : " + req.body.length);
+
+      Company.findByIdAndUpdate(
+        { _id: req.company._id },
+        {
+          $push: { table: { name: "deneme", no: founds[0].table.length + 1 } }
+        }
+      )
+        .then(data => {
+          console.log("docs : " + data);
+          res
+            .status(httpStatus.OK)
+            .json({ message: "A new table added!", data });
+        })
+        .catch(err => {
+          res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "Table Add Error", data });
+          console.log(err);
+        });
+    });
+  },
+  removeATable(req, res) {
+    Company.find({ _id: req.company._id }, (err, founds) => {
+      console.log("Body'den gelen : " + req.body.length);
+
+      Company.findByIdAndUpdate(
+        { _id: req.company._id },
+        {
+          $pop: { table: 1 }
+        }
+      )
+        .then(data => {
+          console.log("docs : " + data);
+          res
+            .status(httpStatus.OK)
+            .json({ message: "last table removed!", data });
+        })
+        .catch(err => {
+          res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "Table remove Error", err });
+          console.log(err);
+        });
+    });
+  }
 };
