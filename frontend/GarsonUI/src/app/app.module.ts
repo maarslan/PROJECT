@@ -13,7 +13,10 @@ import { CookieService } from 'ngx-cookie-service';
 import { TokenInterceptor } from './services/token-interceptor.service';
 import { TokenService } from './services/token.service';
 import { TableSettingsComponent } from './components/table-settings/table-settings.component';
-
+import { ApplyFormComponent } from './components/apply-form/apply-form.component';
+import { CompanyInfoComponent } from './components/company-info/company-info.component';
+import { CompanyPasswordComponent } from './components/company-password/company-password.component';
+import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +25,9 @@ import { TableSettingsComponent } from './components/table-settings/table-settin
     HomePageComponent,
     LoginComponent,
     TableSettingsComponent,
+    ApplyFormComponent,
+    CompanyInfoComponent,
+    CompanyPasswordComponent,
 
   ],
   imports: [
@@ -30,6 +36,7 @@ import { TableSettingsComponent } from './components/table-settings/table-settin
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    FileUploadModule
   ],
   providers: [CookieService, TokenService, {
     provide: HTTP_INTERCEPTORS,

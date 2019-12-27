@@ -1,0 +1,277 @@
+<div class="content" style="text-align: center;">
+  <h1>İşletme Bilgileri</h1>
+</div>
+<div class="content-fluid">
+
+  <!-- Company Info's -->
+  <div class="row">
+    <div class="col-sm-9">
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <label class="file-upload btn btn-sm btn-primary">
+            <strong> İşletme Vergi Levhanızı Yükleyin</strong> <input type="file" ng2FileSelect [uploader]="uploader"
+              (onFileSelected)="onFileSelected($event)" id="filePath" />
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <button class="btn btn-primary btn-sm" style="margin-left: 0;" (click)="Upload()">Yükle</button>
+    </div>
+
+
+  </div>
+  <div style="margin:2rem 1rem;">
+    <span class="table-remove"><button type="button" data-title="update" data-toggle="modal" data-target="#update"
+        class="btn btn-danger btn-rounded btn-sm my-0">Güncelle</button></span>
+  </div>
+
+  <table class="table table-bordered table-responsive-md table-striped text-center">
+
+    <tr>
+
+      <td class="pt-3-half"><strong>İşletme Adı/Ünvanı</strong> </td>
+      <td class="pt-3-half">{{company.companyName}}</td>
+
+    </tr>
+
+    <tr>
+
+      <td class="pt-3-half"><strong>İşletme Email</strong></td>
+      <td class="pt-3-half">{{company.email}}</td>
+
+    </tr>
+
+    <tr>
+
+      <td class="pt-3-half"><strong>İşletme Adresi</strong></td>
+      <td class="pt-3-half">{{company.address}}</td>
+
+    </tr>
+    <tr>
+
+      <td class="pt-3-half"><strong>İşletme Telefon</strong></td>
+      <td class="pt-3-half">{{company.phone}}</td>
+
+    </tr>
+    <tr>
+
+      <td class="pt-3-half"><strong>İşletme Sözleşme No</strong></td>
+      <td class="pt-3-half">{{company.contractNo}}</td>
+
+    </tr>
+    <tr>
+
+      <td class="pt-3-half"><strong>Üyelik Başlangıç Tarihi Tarihi</strong></td>
+      <td class="pt-3-half">{{ExactTime(company.createdAt)}}</td>
+
+    </tr>
+    <tr>
+
+      <td class="pt-3-half"><strong>İşletme Logonuz</strong></td>
+      <td class="pt-3-half">{{company.LogoUrl}}</td>
+
+    </tr>
+    <tr>
+
+      <td class="pt-3-half"><strong>Vergi Levhanız</strong></td>
+      <td class="pt-3-half">{{company.TaxUrl}}</td>
+
+    </tr>
+
+  </table>
+  <br>
+  <hr>
+  <!-- Founder Info's -->
+
+  <div class="content" style="text-align: center;">
+    <h1>İşletme Sahibi Bilgileri</h1>
+  </div>
+  <div class="content-fluid">
+
+    <div style="margin:2rem 1rem;">
+      <span class="table-remove"><button type="button" data-title="updateFounder" data-toggle="modal"
+          data-target="#updateFounder" class="btn btn-danger btn-rounded btn-sm my-0">Güncelle</button></span>
+    </div>
+
+    <table class="table table-bordered table-responsive-md table-striped text-center">
+
+      <tr>
+
+        <td class="pt-3-half"><strong>Adı/Soyadı</strong> </td>
+        <td class="pt-3-half">{{founder[0].fullName}}</td>
+
+      </tr>
+      <!-- This is our clonable table line -->
+      <tr>
+
+        <td class="pt-3-half"><strong>Telefon Numarası</strong></td>
+        <td class="pt-3-half">{{founder[0].phone}}</td>
+
+      </tr>
+      <!-- This is our clonable table line -->
+      <tr>
+
+        <td class="pt-3-half"><strong>T.C. Kimlik Numarası</strong></td>
+        <td class="pt-3-half">{{founder[0].citizenNumber}}</td>
+
+      </tr>
+      <tr>
+
+        <td class="pt-3-half"><strong>Vergi Numarası</strong></td>
+        <td class="pt-3-half">{{founder[0].taxNumber}}</td>
+
+      </tr>
+      <tr>
+
+        <td class="pt-3-half"><strong>Doğum Tarihi</strong></td>
+        <td class="pt-3-half">{{BirthTime(founder[0].dateOfBirth)}}</td>
+
+      </tr>
+    </table>
+
+
+  </div>
+
+  <!-- Update Company Infos  -->
+
+  <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="update" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+              style="position: absolute;left: 0.5rem;" class="fas fa-times"></i></button>
+          <h4 class="modal-title custom_align" id="Heading">İşletme Bilgilerinizi Güncelleyin</h4>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="companyInfoForm" novalidate (ngSubmit)="companyInfoUpdate()">
+            <table class="table table-bordered table-responsive-md table-striped text-center">
+
+              <tr>
+
+                <td class="pt-3-half"><strong>İşletme Adı/Ünvanı</strong> </td>
+                <td class="pt-3-half"><input type="text" formControlName="companyName"></td>
+
+              </tr>
+              <!-- This is our clonable table line -->
+              <tr>
+
+                <td class="pt-3-half"><strong>İşletme Email</strong></td>
+                <td class="pt-3-half"><input type="text" formControlName="email"></td>
+
+              </tr>
+              <!-- This is our clonable table line -->
+              <tr>
+
+                <td class="pt-3-half"><strong>İşletme Adresi</strong></td>
+                <td class="pt-3-half"><input type="text" formControlName="address"> </td>
+
+              </tr>
+              <tr>
+
+                <td class="pt-3-half"><strong>İşletme Telefon</strong></td>
+                <td class="pt-3-half"><input type="number" formControlName="phone"></td>
+
+              </tr>
+              <tr>
+
+                <td class="pt-3-half"><strong>İşletme Sözleşme No</strong></td>
+                <td class="pt-3-half">{{company.contractNo}}</td>
+
+              </tr>
+              <tr>
+
+                <td class="pt-3-half"><strong>Üyelik Başlangıç Tarihi Tarihi</strong></td>
+                <td class="pt-3-half">{{ExactTime(company.createdAt)}}</td>
+
+              </tr>
+            </table>
+
+
+
+
+
+            <div class="modal-footer ">
+              <button class="btn btn-warning btn-lg" style="width: 100%;"><i
+                  style="position: absolute;left: 3rem;bottom: 3rem;" class="fas fa-check-circle"></i>Güncelle</button>
+            </div>
+          </form>
+
+
+        </div>
+
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+  <!-- Update Founder Infos  -->
+
+  <div class="modal fade" id="updateFounder" tabindex="-1" role="dialog" aria-labelledby="updateFounder"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+              style="position: absolute;left: 0.5rem;" class="fas fa-times"></i></button>
+          <h4 class="modal-title custom_align" id="Heading">İşletme Sahibi Bilgilerini Güncelleyin</h4>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="founderInfoForm" novalidate (ngSubmit)="founderInfoUpdate()">
+            <table class="table table-bordered table-responsive-md table-striped text-center">
+
+              <tr>
+
+                <td class="pt-3-half"><strong>Adı/Soyadı</strong> </td>
+                <td class="pt-3-half"> <input type="text" formControlName="fullName"></td>
+
+              </tr>
+              <!-- This is our clonable table line -->
+              <tr>
+
+                <td class="pt-3-half"><strong>Telefon Numarası</strong></td>
+                <td class="pt-3-half"><input type="number" formControlName="phone"></td>
+
+              </tr>
+              <!-- This is our clonable table line -->
+              <tr>
+
+                <td class="pt-3-half"><strong>T.C. Kimlik Numarası</strong></td>
+                <td class="pt-3-half"><input type="number" formControlName="citizenNumber"></td>
+
+              </tr>
+              <tr>
+
+                <td class="pt-3-half"><strong>Vergi Numarası</strong></td>
+                <td class="pt-3-half"><input type="text" formControlName="taxNumber"></td>
+
+              </tr>
+              <tr>
+
+                <td class="pt-3-half"><strong>Doğum Tarihi</strong></td>
+                <td class="pt-3-half"><input type="date" formControlName="dateOfBirth"></td>
+
+              </tr>
+            </table>
+            <div class="modal-footer ">
+              <button class="btn btn-warning btn-lg" style="width: 100%;"><i
+                  style="position: absolute;left: 3rem;bottom: 3rem;" class="fas fa-check-circle"></i>Güncelle</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
+
+
+
+  <script>
+    $(document).ready(function () {
+      $('.file-upload').file_upload();
+    });
+  </script>

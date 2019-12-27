@@ -7,6 +7,9 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './services/auth.guard';
 import { TableSettingsComponent } from './components/table-settings/table-settings.component';
+import { ApplyFormComponent } from './components/apply-form/apply-form.component';
+import { CompanyInfoComponent } from './components/company-info/company-info.component';
+import { CompanyPasswordComponent } from './components/company-password/company-password.component';
 
 
 const routes: Routes = [{
@@ -14,6 +17,7 @@ const routes: Routes = [{
   children: [
     { path: '', component: HomePageComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'apply', component: ApplyFormComponent }
     // {
     //   path: 'company', component: AppComponent, canActivate: [AuthGuard]
     // }
@@ -25,6 +29,8 @@ const routes: Routes = [{
   children: [
     { path: 'menu-settings', component: MenuSettingsComponent, canActivate: [AuthGuard] },
     { path: 'table-settings', component: TableSettingsComponent, canActivate: [AuthGuard] },
+    { path: 'info', component: CompanyInfoComponent, canActivate: [AuthGuard] },
+    { path: 'password', component: CompanyPasswordComponent, canActivate: [AuthGuard] }
   ]
 }
 

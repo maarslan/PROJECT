@@ -4,8 +4,8 @@ const companySchema = mongoose.Schema({
   companyName: String,
   email: String,
   password: String,
-  adress: String,
-  Phone: Number,
+  address: String,
+  phone: Number,
   contractNo: String,
   menu: [
     {
@@ -15,7 +15,25 @@ const companySchema = mongoose.Schema({
     }
   ],
   table: [{ name: String, no: Number }],
-  createdAt: { type: Date, default: Date.now() }
+  createdAt: { type: Date, default: Date.now() },
+  founder: [
+    {
+      fullName: String,
+      phone: Number,
+      citizenNumber: Number,
+      taxNumber: Number,
+      dateOfBirth: Date
+    }
+  ],
+
+  picVersion: { type: String, default: "1577294644" },
+  picId: { type: String, default: "unknown-512_gn1h92.png" },
+  images: [
+    {
+      imgId: { type: String, default: "" },
+      imgVersion: { type: String, default: "" }
+    }
+  ]
 });
 
 module.exports = mongoose.model("Company", companySchema);

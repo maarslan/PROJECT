@@ -1,0 +1,189 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="assets/images/brand-logo.png" alt="">
+      GARSONN WEB
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/apply']" [routerLinkActive]>Başvuru Formu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/login']">Giriş</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Page Content -->
+<div class="container-fluid" style="text-align: center;margin: 3%;">
+  <h2>İş Yeri Üyelik Talep Formu</h2>
+</div>
+<div class="container">
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td colspan="1">
+          <form class="well form-horizontal">
+            <fieldset>
+              <div class="form-group">
+                <label class="col-md-4 control-label">İşletme Adı/Ünvanı</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-user"></i></span><input id="fullName" name="fullName"
+                      placeholder="Full Name" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Adres Satırı-1</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-home"></i></span><input id="addressLine1" name="addressLine1"
+                      placeholder="Address Line 1" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Adres Satırı-2</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-home"></i></span><input id="addressLine2" name="addressLine2"
+                      placeholder="Address Line 2" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Şehir</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-home"></i></span><input id="city" name="city" placeholder="City"
+                      class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-4 control-label">Posta Kodu</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-home"></i></span><input id="postcode" name="postcode"
+                      placeholder="Postal Code/ZIP" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Ülke</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group">
+                    <span class="input-group-addon" style="max-width: 100%;"><i
+                        class="glyphicon glyphicon-list"></i></span>
+                    <select class="selectpicker form-control">
+                      <option>Ülke Seçiniz..</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Email</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-envelope"></i></span><input id="email" name="email"
+                      placeholder="Email" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Telefon Numarası</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-earphone"></i></span><input id="phoneNumber" name="phoneNumber"
+                      placeholder="Phone Number" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </td>
+        <td colspan="1">
+          <form class="well form-horizontal">
+            <fieldset>
+              <div class="form-group">
+                <label class="col-md-4 control-label">İşletme Sahibinin Adı</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-user"></i></span><input id="fullName" name="fullName"
+                      placeholder="Full Name" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Vergi Numarası</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-home"></i></span><input id="addressLine1" name="addressLine1"
+                      placeholder="Address Line 1" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">T.C. Kimlik Numarası</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-home"></i></span><input id="addressLine2" name="addressLine2"
+                      placeholder="Address Line 2" class="form-control" required="true" value="" type="number"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Şehir</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-home"></i></span><input id="city" name="city" placeholder="City"
+                      class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Posta Kodu</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-home"></i></span><input id="postcode" name="postcode"
+                      placeholder="Postal Code/ZIP" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Üleke</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group">
+                    <span class="input-group-addon" style="max-width: 100%;"><i
+                        class="glyphicon glyphicon-list"></i></span>
+                    <select class="selectpicker form-control">
+                      <option>Bir Ülke Seçiniz</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">Email</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-envelope"></i></span><input id="email" name="email"
+                      placeholder="Email" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 control-label">telefon Numarası</label>
+                <div class="col-md-8 inputGroupContainer">
+                  <div class="input-group"><span class="input-group-addon"><i
+                        class="glyphicon glyphicon-earphone"></i></span><input id="phoneNumber" name="phoneNumber"
+                      placeholder="Phone Number" class="form-control" required="true" value="" type="text"></div>
+                </div>
+              </div>
+            </fieldset>
+
+
+
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="text-align: center; margin: 5%;">
+    <button class="btn btn-lg btn-dark">Başvur</button>
+  </div>
+</div>

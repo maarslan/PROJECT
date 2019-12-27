@@ -21,8 +21,8 @@ app.use((req, res, next) => {
 });
 const dbConfig = require("./config/secret");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 
 // Database Connection
@@ -47,11 +47,13 @@ require("./socket/menu-settings")(io);
 const auth = require("./routes/authRoutes");
 const menu = require("./routes/menuRoutes");
 const company = require("./routes/companyRoutes");
+const user = require("./routes/userRoutes");
 
 // models use
 app.use("/api/garsonn", auth);
 app.use("/api/garsonn", menu);
 app.use("/api/garsonn", company);
+app.use("/api/garsonn", user);
 
 server.listen(3000, () => {
   console.log("server is running on port 3000");

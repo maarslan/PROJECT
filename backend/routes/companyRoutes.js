@@ -28,5 +28,24 @@ router.put(
   AuthHelper.VerifyToken,
   CompanyCtrl.removeATable
 );
-
+router.put(
+  "/company/company-info-update",
+  AuthHelper.VerifyToken,
+  CompanyCtrl.updateCompanyInfo
+);
+router.put(
+  "/company/founder-info-update",
+  AuthHelper.VerifyToken,
+  CompanyCtrl.updateFounderInfo
+);
+router.put(
+  "/company/change-password",
+  AuthHelper.VerifyToken,
+  CompanyCtrl.ChangePassword
+);
+router.post(
+  "/company/upload-image",
+  AuthHelper.VerifyToken,
+  CompanyCtrl.UploadImage
+);
 module.exports = router;

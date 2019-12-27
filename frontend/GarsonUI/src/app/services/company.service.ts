@@ -26,5 +26,19 @@ export class CompanyService {
   removeATable(body): Observable<any> {
     return this.http.put(BASEURL + '/company/remove-a-table', body);
   }
+  updateCompanyInfo(body): Observable<any> {
+    return this.http.put(BASEURL + '/company/company-info-update', body);
+  }
+  updateFounderInfo(body): Observable<any> {
+    return this.http.put(BASEURL + '/company/founder-info-update', body);
+  }
+  changePassword(body): Observable<any> {
+    return this.http.put(BASEURL + '/company/change-password', body);
+  }
+  AddImage(image): Observable<any> {
+    return this.http.post(BASEURL + '/company/upload-image', {
+      image
+    });
 
+  }
 }

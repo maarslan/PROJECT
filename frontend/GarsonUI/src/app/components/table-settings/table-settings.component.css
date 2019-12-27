@@ -9,3 +9,28 @@
   width: 12rem;
   height: auto;
 }
+#UpdateTables {
+  display: none;
+}
+
+#CreateTables {
+  display: none;
+}
+.head {
+  text-align: center;
+  background-color: #410a14;
+  color: white;
+  height: 5rem;
+  padding-top: 1.75rem;
+  width: 100%;
+}
+.tableBody {
+  width: 75%;
+  margin-left: 3%;
+  right: 1%;
+}
+.headerInput {
+  background-color: #64c4d0;
+  color: white;
+  margin-top: 2%;
+}

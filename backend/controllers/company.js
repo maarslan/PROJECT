@@ -2,6 +2,14 @@ const mongoose = require("mongoose");
 const Menu = require("../models/menuModel");
 const httpStatus = require("http-status-codes");
 const Company = require("../models/companyModel");
+const bcrypt = require("bcryptjs");
+const cloudinary = require("cloudinary");
+
+cloudinary.config({
+  cloud_name: "maarslan",
+  api_key: "452561325119137",
+  api_secret: "ANVowIviJnma-wYmPWoqtKSznA4"
+});
 
 module.exports = {
   async createTables(req, res) {
@@ -139,6 +147,124 @@ module.exports = {
           res
             .status(httpStatus.INTERNAL_SERVER_ERROR)
             .json({ message: "Table remove Error", err });
+          console.log(err);
+        });
+    });
+  },
+
+  updateCompanyInfo(req, res) {
+    Company.findOneAndUpdate(
+      { _id: req.company._id },
+      {
+        $set: {
+          companyName: req.body.companyName,
+          email: req.body.email,
+          address: req.body.address,
+          phone: req.body.phone
+        }
+      },
+      {
+        new: true
+      }
+    )
+      .then(data => {
+        res.status(httpStatus.OK).json({ message: "Updated", data });
+        console.log(data);
+      })
+      .catch(err => {
+        res
+          .status(httpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "company info update error", err });
+        console.log(err);
+      });
+  },
+  updateFounderInfo(req, res) {
+    Company.findOneAndUpdate(
+      { _id: req.company._id },
+      {
+        $set: {
+          founder: {
+            fullName: req.body.fullName,
+            phone: req.body.phone,
+            citizenNumber: req.body.citizenNumber,
+            taxNumber: req.body.taxNumber,
+            dateOfBirth: req.body.dateOfBirth
+          }
+        }
+      },
+      {
+        new: true
+      }
+    )
+      .then(data => {
+        res.status(httpStatus.OK).json({ message: "Updated", data });
+        console.log(data);
+      })
+      .catch(err => {
+        res
+          .status(httpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "founder info update error", err });
+        console.log(err);
+      });
+  },
+  ChangePassword(req, res) {
+    const password = req.body.password;
+    const newPassword = req.body.newPassword;
+    const confirmPassword = req.body.confirmPassword;
+
+    if (
+      !(newPassword === confirmPassword) &&
+      password === req.company.password
+    ) {
+      console.log("İlk döngü : " + newPassword);
+      return res.status(401).send("Confirmation Error!");
+    } else {
+      return bcrypt.hash(newPassword, 10, (err, hash) => {
+        if (err) {
+          return res.status(500).json({ message: "eror hashing password" });
+        } else {
+          console.log("Şifreli şifre : " + hash);
+          Company.findOneAndUpdate(
+            { _id: req.company._id },
+            {
+              $set: { password: hash }
+            }
+          )
+            .then(data => {
+              res.status(200).json({ message: "password changed!", data });
+            })
+            .catch(err => {
+              res.status(501).json({ message: "password change error", err });
+            });
+        }
+      });
+    }
+  },
+
+  UploadImage(req, res) {
+    cloudinary.uploader.upload(req.body.image, async result => {
+      console.log("result :" + result);
+
+      await Company.updateOne(
+        { _id: req.company._id },
+        {
+          $push: {
+            images: {
+              imgId: result.public_id,
+              imgVersion: result.version
+            }
+          }
+        },
+        { new: true }
+      )
+        .then(data => {
+          res.status(httpStatus.OK).json({ message: "Image Uploaded!", data });
+          console.log("data : " + data);
+        })
+        .catch(err => {
+          res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: "Upload Image Error", err });
           console.log(err);
         });
     });

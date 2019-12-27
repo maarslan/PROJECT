@@ -29,16 +29,17 @@ export class TableSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.displayTables();
     this.init();
     this.socket.on('refreshPage', data => {
       this.displayTables();
     });
-    // for the switching the  form fields inside create table form and add/remove table fields
-    this.formsVisibility();
+
   }
 
 
   init() {
+
     // for the form to get number of table from user
     this.tableForm = this.fb.group({
       counter: ['', Validators.required]
@@ -50,21 +51,33 @@ export class TableSettingsComponent implements OnInit {
       no: ['', Validators.required]
     });
 
-    this.displayTables();
+
+
+
   }
   // display the tables in the table
   displayTables() {
     this.companyService.getTables().subscribe(data => {
       this.tables = data;
       this.tableNumber = data.length;
-      jQuery('#totalTableNumber').text(this.tableNumber);
-      console.log('MASA SAYISI :' + this.tableNumber);
+      jQuery('#quantity').val(this.tableNumber);
+      console.log('Total Table Number :' + this.tableNumber);
+      console.log(+jQuery('#quantity').val());
+      // for the switching the  form fields inside create table form and add/remove table fields
+      if (+$('#quantity').val()) {
+        jQuery('#CreateTables').hide();
+        jQuery('#UpdateTables').show();
+        jQuery('#EmptyTable').hide();
 
+      } else {
+        jQuery('#CreateTables').show();
+        jQuery('#UpdateTables').hide();
+        jQuery('#EmptyTable').show();
 
-      console.log('Toplam Masa Sayısı :' + this.tableNumber);
-
+      }
 
     });
+
   }
 
   // If the table array is empty then the create tables as much as input number
@@ -120,17 +133,6 @@ export class TableSettingsComponent implements OnInit {
     });
   }
 
-  formsVisibility() {
-    if ($('#totalTableNumber').html('0')) {
-      $('#CreateTables').hide();
-      $('#UpdateTables').show();
-      $('#EmptyTable').hide();
 
-    } else {
-      $('#CreateTables').show();
-      $('#UpdateTables').hide();
-      $('#totalTableNumber').text('0');
-    }
-  }
 
 }

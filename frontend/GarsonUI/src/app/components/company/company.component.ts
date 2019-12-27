@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { $ } from 'protractor';
 import { TokenService } from 'src/app/services/token.service';
 import { Router } from '@angular/router';
+import io from 'socket.io-client';
 declare var jQuery: any;
 @Component({
   selector: 'app-company',
@@ -9,26 +10,24 @@ declare var jQuery: any;
   styleUrls: ['./company.component.css']
 })
 export class CompanyComponent implements OnInit {
-  isMenuSettings = false;
-  isTableSettings = false;
   company: any;
-  constructor(private tokenService: TokenService, private router: Router) { }
+  socket: any;
+  constructor(private tokenService: TokenService, private router: Router) {
+    this.socket = io('http://localhost:3000');
+  }
 
   ngOnInit() {
     this.company = this.tokenService.GetPayload();
     // tslint:disable-next-line: no-shadowed-variable
     this.toggleSideNav();
+    console.log('resimler :' + this.company.images[0].imgId);
   }
 
-  shiftToMenu() {
-    this.isMenuSettings = true;
-  }
-  shiftToTables() {
-    this.isTableSettings = true;
-  }
+
   logOut() {
     this.tokenService.DeleteToken();
     this.router.navigate(['']);
+    this.socket.emit('refresh', {});
   }
   toggleSideNav() {
     jQuery(($) => {

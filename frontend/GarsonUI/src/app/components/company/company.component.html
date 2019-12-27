@@ -1,5 +1,5 @@
 <div class="page-wrapper chiller-theme toggled">
-  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+  <a id="show-sidebar" class="btn btn-sm btn-dark pointer">
     <i class="fas fa-bars"></i>
   </a>
   <nav id="sidebar" class="sidebar-wrapper">
@@ -13,11 +13,11 @@
       <div class="sidebar-header">
         <div class="user-pic">
           <img class="img-responsive img-rounded"
-            src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+            src="https://res.cloudinary.com/maarslan/image/upload/v{{company.images[0].imgVersion}}/{{company.images[0].imgId}}"
             alt="User picture">
         </div>
         <div class="user-info">
-          <span class="user-name">{{company.contractNo}}
+          <span class="user-name">{{company.companyName}}
           </span>
           <span class="user-role">Yönetici</span>
           <span class="user-status">
@@ -79,17 +79,17 @@
             </div>
           </li>
           <li class="sidebar-dropdown">
-            <a href="#">
+            <a class="pointer">
               <i class="far fa-gem"></i>
               <span>İşletme Bilgileri</span>
             </a>
             <div class="sidebar-submenu">
               <ul>
                 <li>
-                  <a href="#">General</a>
+                  <a [routerLink]="['/company/info']">İşletme Bilgileri</a>
                 </li>
                 <li>
-                  <a href="#">Panels</a>
+                  <a [routerLink]="['/company/password']">Şifre İşlemleri</a>
                 </li>
                 <li>
                   <a href="#">Tables</a>

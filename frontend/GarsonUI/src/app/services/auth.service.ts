@@ -15,4 +15,5 @@ export class AuthService {
   logInCompany(body): Observable<any> {
     return this.http.post(BASEURL + '/login', body);
   }
+
 }

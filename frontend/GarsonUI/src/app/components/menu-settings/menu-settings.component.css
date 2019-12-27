@@ -66,3 +66,14 @@ form_main {
 .table-hover > tbody > tr:hover > th {
   background-color: #4043449c;
 }
+.head {
+  text-align: center;
+  background-color: #410a14;
+  color: white;
+  height: 5rem;
+  padding-top: 1.75rem;
+  width: 100%;
+}
+.tableBody {
+  margin-top: 3%;
+}
