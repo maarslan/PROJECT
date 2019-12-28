@@ -10,4 +10,9 @@ router.get(
   AuthUserHelper.VerifyToken,
   userCtrl.GetAllCompanies
 );
+router.get(
+  "/app/display-selected-company/:id",
+  AuthUserHelper.VerifyToken,
+  userCtrl.GetSelectedCompany
+);
 module.exports = router;

@@ -98,5 +98,18 @@ module.exports = {
       console.log(founds);
       res.send(founds);
     });
+  },
+  GetSelectedCompany(req, res) {
+    _id = req.params.id;
+    console.log("ID : " + req.params.id);
+    Company.find({ _id: req.params.id }, (err, founds) => {
+      if (err) {
+        res
+          .status(httpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: "Selected Company cannot be displayed!", err });
+      }
+      console.log(founds);
+      res.send(founds);
+    });
   }
 };
